@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
 <p>The parameters of the <code>PT</code> class and the <code>start</code> function are as follows:</p>
 
 <ol>
-  <li><strong>Initial temperature (float):</strong> Represents the starting temperature value used in the simulated annealing process.</li>
-  <li><strong>Final temperature (float):</strong> Denotes the final temperature value used in the simulated annealing process.</li>
+  <li><strong>Initial temperature (float):</strong> Represents the starting temperature value used in the PT process.</li>
+  <li><strong>Final temperature (float):</strong> Denotes the final temperature value used in the PT process.</li>
   <li><strong>Number of replicas (int):</strong> Specifies the number of replicas (parallel threads) used in the parallel tempering algorithm.</li>
   <li><strong>Length of the homogeneous Markov chain (int):</strong> Indicates the length of the Markov chain used in each replica during the simulation.</li>
   <li><strong>Number of exchanges between temperatures (int):</strong> Defines the number of exchanges attempted between adjacent temperatures in the parallel tempering algorithm.</li>
@@ -57,15 +57,15 @@ int main(int argc, char* argv[]) {
       <li>4 (Geometric Progression): Initial temperatures are distributed in a geometric progression from the starting temperature to the final temperature.</li>
     </ul>
   </li>
-  <li><strong>Automatic temperature update (int):</strong> Specifies the method used to automatically update temperatures during the simulated annealing process. This parameter can take the following values:
+  <li><strong>Automatic temperature update (int):</strong> Specifies the method used to automatically update temperatures during the PT process. This parameter can take the following values:
     <ul>
       <li>0 (Disabled): Automatic temperature updating is disabled.</li>
-      <li>1 (23%): Temperature is updated by 23% of the total temperature range.</li>
-      <li>2 (Equal Acceptance Rates): Temperature is updated based on equal acceptance rates.</li>
+      <li>1 (23%): Temperature is updated to a acceptance rate of 23% .</li>
+      <li>2 (Equal Acceptance Rates): Temperature is updated based on equal acceptance rates in adjacent temperatures.</li>
       <li>3 (Feedback Optimized): Temperature is updated using feedback-optimized methods.</li>
     </ul>
   </li>
-  <li><strong>Temperature update rate (int):</strong> Represents the rate at which the temperature is updated during the simulated annealing process.</li>
+  <li><strong>Temperature update rate (int):</strong> Represents the rate at which the temperature is updated during the PT process.</li>
 </ol>
 
 <p>The <code>start</code> function initializes the execution of the <code>PT</code> algorithm, taking the following parameters:</p>
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
  ┣ 📂include
  ┃ ┗ 📜API core files
  ┣ 📂instances
- ┃ ┗ 📜instance file for the examples
+ ┃ ┗ 📜instance files for the examples
  ┣ 📂example
  ┃ ┗ 📜mainSSP.cpp
  ┃ ┗ 📜mainIPMTC.cpp
