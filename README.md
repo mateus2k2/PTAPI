@@ -33,7 +33,7 @@ public:
 
 int main(int argc, char* argv[]) {
     Permutation* prob = new Permutation("F1001.txt");
-    PT<solPermutation> algo(0.01, 1.0, 20, 200, 1000, 1, 3, 200);
+    PT&lt;solPermutation&gt; algo(0.01, 1.0, 20, 200, 1000, 1, 3, 200);
     solPermutation sol = algo.start(20, prob);
     std::cout << sol.evalSol;
 }
