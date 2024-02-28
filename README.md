@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 <ol>
   <li><strong>Initial temperature (float):</strong> Represents the starting temperature value used in the PT process.</li>
   <li><strong>Final temperature (float):</strong> Denotes the final temperature value used in the PT process.</li>
-  <li><strong>Number of replicas (int):</strong> Specifies the number of replicas (parallel threads) used in the parallel tempering algorithm.</li>
+  <li><strong>Number of replicas (int):</strong> Specifies the number of replicas used in the parallel tempering algorithm.</li>
   <li><strong>Length of the homogeneous Markov chain (int):</strong> Indicates the length of the Markov chain used in each replica during the simulation.</li>
   <li><strong>Number of exchanges between temperatures (int):</strong> Defines the number of exchanges attempted between adjacent temperatures in the parallel tempering algorithm.</li>
   <li><strong>Initial temperature distribution (int):</strong> Specifies the method used to distribute initial temperatures across replicas in the parallel tempering algorithm. This parameter can take the following values:
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
 <p>The <code>start</code> function initializes the execution of the <code>PT</code> algorithm, taking the following parameters:</p>
 
 <ol>
-  <li><strong>Number of threads (int):</strong> Specifies the number of threads (replicas) to be created and used in the parallel tempering algorithm.</li>
+  <li><strong>Number of threads (int):</strong> Specifies the number of threads to be created and used in the parallel tempering algorithm.</li>
   <li><strong>Pointer to the problem object (Problem*):</strong> Points to the object referring to the problem created by the user, which implements the necessary functions for problem-dependent components such as construction, neighbor generation, and evaluation.</li>
 </ol>
 
