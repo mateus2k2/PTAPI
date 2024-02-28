@@ -39,6 +39,19 @@ int main(int argc, char* argv[]) {
 }
 </pre>
 
+<h2>Folder Structure</h2>
+<pre>
+📦Project
+ ┣ 📂include
+ ┃ ┗ 📜API core files
+ ┣ 📂example
+ ┃ ┗ 📜mainSSP.cpp
+ ┃ ┗ 📜mainIPMTC.cpp
+ ┃ ┗ 📜mainRCPMS.cpp
+</pre>
+
+<p>Within the "example" folder, you will find three sample files demonstrating how to use the API for the SSP, IPMTC, and RCPMS problems. Each file contains code examples illustrating how to compile and execute the algorithm to solve each specific problem. These examples are provided to assist users in understanding how to integrate the API into their own projects and utilize its functionalities to solve various optimization problems.</p>
+
 <h2>License</h2>
 <p>The API is available for download under the Creative Commons BY-NC license (CC BY-NC) at: <a href="https://creativecommons.org/licenses/">https://creativecommons.org/licenses/</a>. It can be used and adapted for non-commercial purposes, with proper credit given.</p>
 
