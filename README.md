@@ -39,11 +39,35 @@ int main(int argc, char* argv[]) {
 }
 </pre>
 
+<h2>Explanation of Parameters</h2>
+<p>The parameters of the <code>PT</code> class and the <code>start</code> function are as follows:</p>
+
+<ol>
+  <li><strong>Initial temperature (<code>float</code>):</strong> Represents the initial temperature value used in the simulated annealing process.</li>
+  <li><strong>Final temperature (<code>float</code>):</strong> Denotes the final temperature value used in the simulated annealing process.</li>
+  <li><strong>Number of replicas (<code>int</code>):</strong> Specifies the number of replicas (parallel threads) used in the parallel tempering algorithm.</li>
+  <li><strong>Length of the homogeneous Markov chain (<code>int</code>):</strong> Indicates the length of the Markov chain used in each replica during the simulation.</li>
+  <li><strong>Number of exchanges between temperatures (<code>int</code>):</strong> Defines the number of exchanges attempted between adjacent temperatures in the parallel tempering algorithm.</li>
+  <li><strong>Initial temperature distribution (<code>int</code>):</strong> Determines the initial temperature distribution used in the parallel tempering algorithm. This parameter can take values from 1 to 4, representing different distributions: linear, inverse linear, exponential, and geometric progression.</li>
+  <li><strong>Automatic temperature update (<code>int</code>):</strong> Specifies the type of automatic temperature update method used in the simulated annealing process. This parameter can take values from 0 to 3, where 0 represents no automatic update, and 1, 2, and 3 represent different update strategies based on acceptance rates.</li>
+  <li><strong>Temperature update rate (<code>int</code>):</strong> Represents the rate at which the temperature is updated during the simulated annealing process.</li>
+</ol>
+
+<p>The <code>start</code> function initializes the execution of the <code>PT</code> algorithm, taking the following parameters:</p>
+
+<ol>
+  <li><strong>Number of threads (<code>int</code>):</strong> Specifies the number of threads (replicas) to be created and used in the parallel tempering algorithm.</li>
+  <li><strong>Pointer to the problem object (<code>Problem*</code>):</strong> Points to the object referring to the problem created by the user, which implements the necessary functions for problem-dependent components such as construction, neighbor generation, and evaluation.</li>
+</ol>
+
+
 <h2>Folder Structure</h2>
 <pre>
 📦Project
  ┣ 📂include
  ┃ ┗ 📜API core files
+ ┣ 📂instances
+ ┃ ┗ 📜instance file for the examples
  ┣ 📂example
  ┃ ┗ 📜mainSSP.cpp
  ┃ ┗ 📜mainIPMTC.cpp
