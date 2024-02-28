@@ -1,4 +1,4 @@
-// Código retirado de https://www.johndcook.com/blog/skewness_kurtosis/
+// Code from https://www.johndcook.com/blog/skewness_kurtosis/
 
 #ifndef __REPLICAEST_H__
 #define __REPLICAEST_H__

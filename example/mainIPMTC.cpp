@@ -2,28 +2,18 @@
  * main.cpp
  * 
  * Copyright 2021 André Luis <André Luis@DESKTOP-HDL2CBS>
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- * 
- * 
+ *
+ * Compilation Instructions 
+ * g++ mainIPMTC.cpp ../include/*.h ./IPMTC.cpp -std=c++20 -Wshadow -Wall -o mainIPMTC -O3 -Wno-unused-result -lpthread
+ *
+ * Example Execution
+ * ./mainIPMTC ../instances/IPMTC/instanceLarge1_m\=3_n\=50_l\=30_c\=10_s\=0.PMTC --TEMP_INIT 0.2 --TEMP_FIM 1 --N_REPLICAS 16 --MCL 400 --PTL 1000 --TEMP_DIST 1 --TYPE_UPDATE 2 --TEMP_UPDATE 35000
+ *
  */
 #include <cstdlib>
-#include "./include/ExecTime.h"
-#include "./example/IPMTC.h"
-#include "./include/PT.h"
+#include "../include/ExecTime.h"
+#include "./IPMTC.h"
+#include "../include/PT.h"
 
 
 using namespace std;

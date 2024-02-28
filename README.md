@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 <p>The <code>start</code> function initializes the execution of the <code>PT</code> algorithm, taking the following parameters:</p>
 
 <ol>
-  <li><strong>Number of threads (<code>int</code>):</strong> Specifies the number of threads (replicas) to be created and used in the parallel tempering algorithm.</li>
+  <li><strong>Number of threads (<code>int</code>):</strong> Specifies the number of threads to be created and used in the parallel tempering algorithm.</li>
   <li><strong>Pointer to the problem object (<code>Problem*</code>):</strong> Points to the object referring to the problem created by the user, which implements the necessary functions for problem-dependent components such as construction, neighbor generation, and evaluation.</li>
 </ol>
 
