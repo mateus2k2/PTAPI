@@ -1,4 +1,4 @@
-<h1>Application Programming Interface</h1>
+<h1>PT Application Programming Interface</h1>
 <h2>Introduction</h2>
 <p>The proposed API offers a simple and efficient connection interface, implemented in C++, making it flexible for use across different platforms. The API usage involves three main steps: solution encoding and decoding, coding problem-specific components (evaluation function and movements), and connecting to the PT core implementation.</p>
 
