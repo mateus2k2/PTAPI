@@ -12,13 +12,26 @@
 
 using namespace std;
 
+#ifdef GATILHO
+int iterationsToBestSol = 0;
+int execAtual = 0; 
+int myBestSol = 9999999;
+#endif
+
 class Node{
 	//private:
 		
 	protected:
+		#ifdef GATILHO
+		int passoGatilho = 0;
+		int ptlMax = 0;
+		#else
+		int execAtual = 0; 
+		#endif
+
+
 		atomic<int>* execMax;
 		mutex mtxNode;
-		int execAtual = 0; 
 		bool endN = false; 
 		atomic<int>* indexPT;
 		vector<std::pair<Node*,bool>> edgeFrom;
@@ -70,6 +83,15 @@ bool Node::theEnd(){
 }
 
 bool Node::finish(){
+	#ifdef GATILHO
+	if(iterationsToBestSol >= *execMax - 100 && *execMax < ptlMax) {
+		*execMax = *execMax + passoGatilho;
+		#ifdef DEBUG
+		cout << "Iterations to best solution: " << iterationsToBestSol << " execMax: " << *execMax << endl;
+		#endif
+	}
+	#endif
+
 	return (*execMax <= execAtual);
 }
 

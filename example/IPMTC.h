@@ -53,7 +53,7 @@ class IPMTC: public Problem<solIPMTC>{
 		~IPMTC();
 		solIPMTC construction();
 		solIPMTC neighbor(solIPMTC sol);
-		double evaluate(solIPMTC sol);
+		double evaluate(solIPMTC& sol);
 		solIPMTC setCut(solIPMTC sol);
 		int GPCAIPMTC(std::vector<int> sol);
 

@@ -2,7 +2,7 @@
 #define __PT_H__
 
 
-#include <vector>
+#include <vector> 
 #include <deque> 
 #include <thread>         
 #include <iostream>
@@ -31,12 +31,14 @@ class PT{
 		int tempUpdate; // number of swaps to update de temp
 		std::deque<double> allTemps;
 		S best;
+
 	public:
 		PT(float tempMin, float tempMax, int tempL, int MKL, int PTL, int tempD, int upType, int tempUp); // constructor
 
 		~PT();
 		S start(int thN, Problem<S>* prob);
 		S getBestSol();
+		int getIterationsToBestSol();
 		std::deque<double> tempPG(float tempMin, float tempMax, int tempL); 
 		std::deque<double> tempExp(float tempMin, float tempMax, int tempL); 
 		std::deque<double> tempLinear(float tempMin, float tempMax, int tempL); 
@@ -76,7 +78,9 @@ PT<S>::PT(float tempMin, float tempMax, int tempL, int MKL, int PTL, int tempD, 
 			cout << "Invalid temperature initial distribution! \n";
 		break;	
 	}
-
+	#ifdef GATILHO
+	PTL_ = PTL * 0.1;
+	#endif
 } 
 
 template<typename S>
@@ -261,5 +265,9 @@ S PT<S>::getBestSol(){
  return best;
 }
 
+// template<typename S>
+// int PT<S>::getIterationsToBestSol(){
+//  return iterationsToBestSol;
+// }
 
 #endif

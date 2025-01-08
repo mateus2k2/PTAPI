@@ -4,6 +4,7 @@
 #include <random>
 #include <atomic>
 #include "Consumer.h"
+#include "Node.h"
 
 template<typename S>
 class NodeMCMC: public Node{
@@ -67,6 +68,12 @@ NodeMCMC<S>::NodeMCMC(int MCL_, atomic<int>* PTL_, double temp_, Problem<S>* pro
 ,prob(prob_)
 ,pool(pool_)
 {
+
+	#ifdef GATILHO
+	passoGatilho = *PTL_;
+	ptlMax = *PTL_ * 10;
+	#endif
+
 	execMax = PTL_;
 	indexPT = pool_->getIndexPT();
 	sol = prob->construction();
@@ -99,6 +106,7 @@ void NodeMCMC<S>::run(){
 		// Less or equal to 0, accepted
 		if (delta <= 0.0){
 			// 
+			// cout << "1- Best Sol: " << neigh.evalSol << " Index: " << i << endl;
 			sol = neigh;
 			++accept;
 		}else{
@@ -109,6 +117,7 @@ void NodeMCMC<S>::run(){
 					
 			//Swap accept
 			if(dis(gen) <= probab){
+				// cout << "2- Best Sol: " << neigh.evalSol << " Index: " << i << endl;
 				sol = neigh;
 				++accept;
 			} //End if					
@@ -203,6 +212,17 @@ void NodeMCMC<S>::setSol(S sol_){
 // keep the best solution
 template<typename S>
 bool NodeMCMC<S>::setBestSol(S sol_){
+	
+	#ifdef GATILHO
+	if (sol_.evalSol < myBestSol) {
+		myBestSol = sol_.evalSol;
+		iterationsToBestSol = execAtual;
+		#ifdef DEBUG
+		cout << "bestSol.evalSol: " << bestSol.evalSol << " IterationsToBestSol: " << iterationsToBestSol << " execMax: " << *execMax << endl;
+		#endif
+	}
+	#endif
+
 	if (sol_.evalSol<bestSol.evalSol) {
 		bestSol=sol_;
 		return true;

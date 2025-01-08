@@ -138,7 +138,7 @@ solIPMTC IPMTC::neighbor(solIPMTC sol){
 	return s;
 }
 
-double IPMTC::evaluate(solIPMTC sol){
+double IPMTC::evaluate(solIPMTC& sol){
 	
 	int pipes_count = 0;
 	int last_full = 0;
