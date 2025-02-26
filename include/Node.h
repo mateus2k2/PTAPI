@@ -12,30 +12,20 @@
 
 using namespace std;
 
-#ifdef GATILHO
-int iterationsToBestSol = 0;
-int execAtual = 0; 
-int myBestSol = 9999999;
-#endif
+std::mutex cout_mutex;
 
 class Node{
 	//private:
 		
 	protected:
-		#ifdef GATILHO
-		int passoGatilho = 0;
-		int ptlMax = 0;
-		#else
-		int execAtual = 0; 
-		#endif
-
-
 		atomic<int>* execMax;
 		mutex mtxNode;
+		int execAtual = 0; 
 		bool endN = false; 
 		atomic<int>* indexPT;
 		vector<std::pair<Node*,bool>> edgeFrom;
 		vector<std::pair<Node*,bool>> edgeto;
+		string nodeName;
 	public:
 		Node();
 		~Node();
@@ -49,6 +39,12 @@ class Node{
 		void reset();
 		void printEdgeto();
 		void printEdgeFrom();
+
+		void lockPrint(string str){
+			cout_mutex.lock();
+			cout << str << endl;
+			cout_mutex.unlock();
+		}
 };
 
 Node::Node(){
@@ -79,19 +75,14 @@ void Node::reset(){
 bool Node::theEnd(){
 	execAtual++;
 	
+	#ifdef DEBUG
+	lockPrint("theEnd = " + to_string(execAtual) + " execMax: " + to_string(*execMax) + " node: " + nodeName);
+	#endif
+	
 	return (*execMax <= execAtual);
 }
 
 bool Node::finish(){
-	#ifdef GATILHO
-	if(iterationsToBestSol >= *execMax - 100 && *execMax < ptlMax) {
-		*execMax = *execMax + passoGatilho;
-		#ifdef DEBUG
-		cout << "Iterations to best solution: " << iterationsToBestSol << " execMax: " << *execMax << endl;
-		#endif
-	}
-	#endif
-
 	return (*execMax <= execAtual);
 }
 

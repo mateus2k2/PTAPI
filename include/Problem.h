@@ -7,6 +7,8 @@
 
 struct solution{ 
   double evalSol = INT_MAX; 
+  int ptl = -1;
+  int mcmc = -1;
   bool Nup,Ndown;
 };
 

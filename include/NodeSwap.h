@@ -20,8 +20,8 @@ class NodeSwap: public Node{
 		std::default_random_engine gen;
 		std::uniform_real_distribution<double> dis;
 	public:
-		NodeSwap(Node* left_, Node* right_,Consumer<S>* pool_, atomic<int>* PTL_);
-		NodeSwap(Node* left_, Node* right_, Node* tempUp_ ,Consumer<S>* pool_, atomic<int>* PTL_, int UPL_);
+		NodeSwap(Node* left_, Node* right_,Consumer<S>* pool_, atomic<int>* PTL_, string nodeName_);
+		NodeSwap(Node* left_, Node* right_, Node* tempUp_ ,Consumer<S>* pool_, atomic<int>* PTL_, int UPL_, string nodeName_);
 		~NodeSwap();
 		void swap();
 		void run();
@@ -32,19 +32,20 @@ class NodeSwap: public Node{
 };
 
 template<typename S>
-NodeSwap<S>::NodeSwap(Node* left_, Node* right_, Consumer<S> *pool_, atomic<int>* PTL_)
+NodeSwap<S>::NodeSwap(Node* left_, Node* right_, Consumer<S> *pool_, atomic<int>* PTL_, string nodeName_)
 :left(left_)
 ,right(right_)
 ,pool(pool_)
 {
 	execMax = PTL_;
+	nodeName = nodeName_;
 	indexPT = pool_->getIndexPT();
 	replicaEstL = new ReplicaEst();
 	replicaEstR = new ReplicaEst();
 }
 
 template<typename S>
-NodeSwap<S>::NodeSwap(Node* left_, Node* right_,Node* tempUp_ , Consumer<S>* pool_, atomic<int>* PTL_, int UPL_)
+NodeSwap<S>::NodeSwap(Node* left_, Node* right_,Node* tempUp_ , Consumer<S>* pool_, atomic<int>* PTL_, int UPL_, string nodeName_)
 :left(left_)
 ,right(right_)
 ,tempUp(tempUp_)
@@ -52,6 +53,7 @@ NodeSwap<S>::NodeSwap(Node* left_, Node* right_,Node* tempUp_ , Consumer<S>* poo
 ,upTime(UPL_)
 {
 	execMax = PTL_;
+	nodeName = nodeName_;
 	indexPT = pool_->getIndexPT();
 	replicaEstL = new ReplicaEst();
 	replicaEstR = new ReplicaEst();
@@ -63,9 +65,12 @@ NodeSwap<S>::~NodeSwap(){
 
 template<typename S>
 void NodeSwap<S>::run(){
+	#ifdef DEBUG
+	lockPrint("NodeSwap: " + nodeName);
+	#endif
 	// Checks whether the execution has reached the end
 	if(theEnd()){
-		 pool->theEnd();
+		pool->theEnd();
 		endN = true;
 	}
 

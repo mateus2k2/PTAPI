@@ -4,7 +4,6 @@
 #include <random>
 #include <atomic>
 #include "Consumer.h"
-#include "Node.h"
 
 template<typename S>
 class NodeMCMC: public Node{
@@ -17,6 +16,7 @@ class NodeMCMC: public Node{
 		double temp;
 		Problem<S>* prob;
 		S sol;
+		S init;
 		S neigh;
 		S neighAux;
 		int accept = 0; 
@@ -36,7 +36,7 @@ class NodeMCMC: public Node{
 
 	public:
 		
-		NodeMCMC(int MCL_,atomic<int>* PTL_, double temp_, Problem<S>* prob_,Consumer<S>* pool_);
+		NodeMCMC(int MCL_,atomic<int>* PTL_, double temp_, Problem<S>* prob_,Consumer<S>* pool_, string nodeName_);
 		~NodeMCMC();
 		void run();
 		bool ready();
@@ -58,27 +58,27 @@ class NodeMCMC: public Node{
 		void setTemp(double t);
 		void setSol(S sol_);
 		bool setBestSol(S sol_);
+		bool setBestSol(S sol_, int i);
 };
 
 
 template<typename S>
-NodeMCMC<S>::NodeMCMC(int MCL_, atomic<int>* PTL_, double temp_, Problem<S>* prob_,Consumer<S>* pool_)
+NodeMCMC<S>::NodeMCMC(int MCL_, atomic<int>* PTL_, double temp_, Problem<S>* prob_,Consumer<S>* pool_, string nodeName_)
 :MCL(MCL_)
 ,temp(temp_)
 ,prob(prob_)
 ,pool(pool_)
 {
-
-	#ifdef GATILHO
-	passoGatilho = *PTL_;
-	ptlMax = *PTL_ * 10;
-	#endif
-
 	execMax = PTL_;
 	indexPT = pool_->getIndexPT();
 	sol = prob->construction();
+	init = sol;
 	bestSol = sol;
-				
+	nodeName = nodeName_;
+	
+	#ifdef DEBUG
+	lockPrint("init Solution: " + std::to_string(sol.evalSol) + " Node: " + nodeName);
+	#endif
 }
 
 template<typename S>
@@ -88,6 +88,7 @@ NodeMCMC<S>::~NodeMCMC(){
 template<typename S>
 void NodeMCMC<S>::run(){
 	
+
 	// calc MCMC
 	for (int i = 0; i < MCL; i++){
 		
@@ -97,7 +98,9 @@ void NodeMCMC<S>::run(){
 		// Calc evaluate function 
 		neigh.evalSol = prob->evaluate(neigh); 
 		
-		// Save best sol			
+		// Save best sol
+		neigh.mcmc = i;
+		neigh.ptl = execAtual;			
 		setBestSol(neigh);
 				
 		//calc delta
@@ -106,7 +109,6 @@ void NodeMCMC<S>::run(){
 		// Less or equal to 0, accepted
 		if (delta <= 0.0){
 			// 
-			// cout << "1- Best Sol: " << neigh.evalSol << " Index: " << i << endl;
 			sol = neigh;
 			++accept;
 		}else{
@@ -117,7 +119,6 @@ void NodeMCMC<S>::run(){
 					
 			//Swap accept
 			if(dis(gen) <= probab){
-				// cout << "2- Best Sol: " << neigh.evalSol << " Index: " << i << endl;
 				sol = neigh;
 				++accept;
 			} //End if					
@@ -125,7 +126,7 @@ void NodeMCMC<S>::run(){
 	} //End for
 
 	if(theEnd()){
-		pool->theEnd(bestSol);
+		pool->theEnd(bestSol, init);
 		endN = true;
 	}
 	
@@ -212,22 +213,16 @@ void NodeMCMC<S>::setSol(S sol_){
 // keep the best solution
 template<typename S>
 bool NodeMCMC<S>::setBestSol(S sol_){
-	
-	#ifdef GATILHO
-	if (sol_.evalSol < myBestSol) {
-		myBestSol = sol_.evalSol;
-		iterationsToBestSol = execAtual;
-		#ifdef DEBUG
-		cout << "bestSol.evalSol: " << bestSol.evalSol << " IterationsToBestSol: " << iterationsToBestSol << " execMax: " << *execMax << endl;
-		#endif
-	}
-	#endif
-
 	if (sol_.evalSol<bestSol.evalSol) {
+		#ifdef DEBUG
+		lockPrint("Best Solution: " + std::to_string(sol_.evalSol) + " execAtual: " + std::to_string(execAtual) + " Node: " + nodeName);
+		#endif
+
 		bestSol=sol_;
+		// bestSol.ptl = execAtual;
 		return true;
 	}
-	
+
 	return false;
 }
 
