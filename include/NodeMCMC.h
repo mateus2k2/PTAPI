@@ -36,7 +36,7 @@ class NodeMCMC: public Node{
 
 	public:
 		
-		NodeMCMC(int MCL_,atomic<int>* PTL_, double temp_, Problem<S>* prob_,Consumer<S>* pool_, string nodeName_);
+		NodeMCMC(int MCL_,atomic<int>* PTL_, atomic<int>* passoGatilho_, double temp_, Problem<S>* prob_,Consumer<S>* pool_, string nodeName_);
 		~NodeMCMC();
 		void run();
 		bool ready();
@@ -63,13 +63,14 @@ class NodeMCMC: public Node{
 
 
 template<typename S>
-NodeMCMC<S>::NodeMCMC(int MCL_, atomic<int>* PTL_, double temp_, Problem<S>* prob_,Consumer<S>* pool_, string nodeName_)
+NodeMCMC<S>::NodeMCMC(int MCL_, atomic<int>* PTL_, atomic<int>* passoGatilho_, double temp_, Problem<S>* prob_,Consumer<S>* pool_, string nodeName_)
 :MCL(MCL_)
 ,temp(temp_)
 ,prob(prob_)
 ,pool(pool_)
 {
 	execMax = PTL_;
+	passoGatilho = passoGatilho_;
 	indexPT = pool_->getIndexPT();
 	sol = prob->construction();
 	init = sol;
@@ -125,7 +126,7 @@ void NodeMCMC<S>::run(){
 		} //End if/else 				
 	} //End for
 
-	if(theEnd()){
+	if(theEnd(bestSol.ptl)){
 		pool->theEnd(bestSol, init);
 		endN = true;
 	}

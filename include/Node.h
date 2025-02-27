@@ -19,6 +19,7 @@ class Node{
 		
 	protected:
 		atomic<int>* execMax;
+		atomic<int>* passoGatilho;
 		mutex mtxNode;
 		int execAtual = 0; 
 		bool endN = false; 
@@ -35,6 +36,7 @@ class Node{
 		virtual bool observer(Node* from) = 0;
 		bool addEdge(Node* from, Node* to);
 		bool theEnd();	
+		bool theEnd(int ptlToBestSol);	
 		bool finish();
 		void reset();
 		void printEdgeto();
@@ -76,7 +78,28 @@ bool Node::theEnd(){
 	execAtual++;
 	
 	#ifdef DEBUG
-	lockPrint("theEnd = " + to_string(execAtual) + " execMax: " + to_string(*execMax) + " node: " + nodeName);
+	lockPrint("theEnd = execAtual: " + to_string(execAtual) + " execMax: " + to_string(*execMax) + " node: " + nodeName);
+	#endif
+	
+	return (*execMax <= execAtual);
+}
+
+bool Node::theEnd(int ptlToBestSol){
+	execAtual++;
+	
+	#ifdef DEBUG
+	lockPrint("theEnd MCMC = execAtual: " + to_string(execAtual) + " execMax: " + to_string(*execMax) + " ptlToBestSol: " + to_string(ptlToBestSol) + " node: " + nodeName);
+	#endif
+
+	#ifdef GATILHO
+	//if the ptlToBestSol is greater or iqual to 90% of the execMax, then increase the execMax in 10%
+	if(ptlToBestSol >= 0.9*(*execMax)){
+		#ifdef DEBUG
+		lockPrint("Aumentou");
+		#endif
+		*execMax = *execMax + *passoGatilho;
+		// *execMax = *execMax + 0.1*(*execMax);
+	}
 	#endif
 	
 	return (*execMax <= execAtual);
